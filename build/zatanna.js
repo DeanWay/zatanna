@@ -1178,7 +1178,7 @@ module.exports.fuzziac = fuzziac;
               _ref1.detach();
             }
           }
-          if (prefix) {
+          if (prefix || e.args === ".") {
             if (!editor.completer) {
               Autocomplete = ace.require('ace/autocomplete').Autocomplete;
               if ((Autocomplete != null ? (_ref2 = Autocomplete.prototype) != null ? _ref2.commands : void 0 : void 0) != null) {
@@ -1782,8 +1782,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("JkpR2F"))
-},{"JkpR2F":12}],12:[function(require,module,exports){
+}).call(this,require("g5I+bs"))
+},{"g5I+bs":12}],12:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};

@@ -53,6 +53,7 @@ module.exports = class Zatanna
       @editor.commands.on 'afterExec', @doLiveCompletion
 
   setAceOptions: () ->
+    #console.log "AceOptions", @options
     aceOptions = 
       'enableLiveAutocompletion': @options.liveCompletion
       'enableBasicAutocompletion': @options.basic
@@ -144,7 +145,7 @@ module.exports = class Zatanna
   off: -> @paused = true
 
   doLiveCompletion: (e) =>
-    # console.log 'Zatanna doLiveCompletion', e
+    #console.log 'Zatanna doLiveCompletion', e
     return unless @options.basic or @options.liveCompletion or @options.completers.snippets or @options.completers.text
     return if @paused
 
@@ -159,11 +160,13 @@ module.exports = class Zatanna
       token = (new TokenIterator editor.getSession(), pos.row, pos.column).getCurrentToken()
       if token? and token.type not in ['comment', 'string']
         prefix = @getCompletionPrefix editor
+        #console.log "prefix", prefix
         # Bake a fresh autocomplete every keystroke
         editor.completer?.detach() if hasCompleter
 
         # Only autocomplete if there's a prefix that can be matched
-        if (prefix)
+        if (prefix or e.args is ".")
+          #console.log(e.args)
           unless (editor.completer)
 
             # Create new autocompleter
@@ -211,7 +214,7 @@ module.exports = class Zatanna
             #   $('.ace_autocomplete').find('.ace_line').css('padding', '20px')
             #   # editor.completer.popup.resize?(true)
             # setTimeout fixStuff, 1000
-
+            
     # Update tokens for text completer
     if @options.completers.text and e.command.name in ['backspace', 'del', 'insertstring', 'removetolinestart', 'Enter', 'Return', 'Space', 'Tab']
       @bgTokenizer.fireUpdateEvent 0, @editor.getSession().getLength()
